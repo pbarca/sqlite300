@@ -34,6 +34,16 @@ def existe(v1):
     return valor
 
 
+def eliminar(v1):
+    import sqlite3
+    ficheiro = sqlite3.connect('db/Utilizador.db')
+    db = ficheiro.cursor()
+    db.execute("DELETE FROM usr WHERE usr = ?", (v1,))
+    ficheiro.commit()
+    ficheiro.close()
+    return
+
+
 def log(v1, v2):
     import sqlite3
     ficheiro = sqlite3.connect('db/Utilizador.db')
@@ -78,7 +88,11 @@ def registo():
     return render_template('registo.html', erro=erro)
 
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     erro = None
     if request.method == "POST":
@@ -91,6 +105,22 @@ def login():
         else:
             erro = 'Bem-vindo.'
     return render_template('login.html', erro=erro)
+
+
+@app.route('/apagar', methods=['POST', 'GET'])
+def apagar():
+    erro = None
+    if request.method == "POST":
+        v1 = request.form['usr']
+        v2 = request.form['pwd']
+        if not existe(v1):
+            erro = 'O Utilizador não existe.'
+        elif not log(v1, v2):
+            erro = 'A senha está incorreta.'
+        else:
+            eliminar(v1)
+            erro = 'Conta eliminada com Sucesso.'
+    return render_template('apagar.html', erro=erro)
 
 
 if __name__ == '__main__':

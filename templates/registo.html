@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="static/style.css">
-</head>
-<body>
-<h1>Criar Conta</h1>
+{% extends 'layout.html' %}
+
+{% block body %}
+<h2>Criar Conta</h2>
 <form method="post">
     <fieldset>
         <legend>Introduza os seus dados</legend>
@@ -21,7 +16,8 @@
     </fieldset>
 </form>
 {% if erro %}
-<h2>{{ erro }}</h2>
+<h3>{{ erro }}</h3>
 {% endif %}
-</body>
-</html>
+{% endblock %}
+
+
